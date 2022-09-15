@@ -15,17 +15,21 @@ const Form = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (!form.message) alert("you forgot your message dumbass");
+    const date = new Date();
     const message = {
       user: form.user,
       message: form.message,
-    }
+      date: `${date.toLocaleDateString()} (${
+        date.toDateString().split(" ")[0]
+      }) ${date.toTimeString().split(" ")[0]}`,
+    };
 
     let options = {
       method: "POST",
       headers: { "content-type": "application/json" },
-      data: JSON.stringify(message)
+      data: JSON.stringify(message),
     };
-    let res = await axios.post('http://localhost:3002/messages', options);
+    let res = await axios.post("http://localhost:3002/messages", options);
   };
 
   return (
