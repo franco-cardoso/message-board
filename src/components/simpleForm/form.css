@@ -1,0 +1,40 @@
+.form {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    width: 300px;
+    height: 100px;
+}
+
+.submit {
+    width: 200px;
+}
+
+.formContainer textarea {
+    resize: none;
+    height: 300px;
+}
+
+.messagesContainer {
+    margin: 30px 0;
+    width: 500px;
+}
+
+.message {
+    border-bottom: white solid 1px;
+    border-top: white solid 1px;
+}
+
+.messageInfo {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 30px;
+}
+
+.messageContent {
+    margin: 0 30px;
+}
+
+.messageContent p {
+    margin: 0 0 16px 0;
+}

@@ -1,11 +1,13 @@
-
+import Form from './components/simpleForm/Form';
+import Messages from './components/simpleForm/Messages';
 import './App.css';
 
 function App() {
   return (
-    <div>
-      asdasd
-    </div>
+    <main>
+      <Form />
+      <Messages />
+    </main>
   );
 }
 
