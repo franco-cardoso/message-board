@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 const Messages = () => {
   const [messages, setMessages]: any = useState([]);
+  console.log(messages);
 
   const getData = async () => {
     await axios
@@ -18,9 +19,9 @@ const Messages = () => {
 
   return (
     <div className="messagesContainer">
-      {messages.map((message: { user: string; message: string }) => {
-        <Message user={message.user} message={message.message} />;
-      })}
+      {messages.map((message: { user: string; message: string }) => (
+        <Message user={message.user} message={message.message} />
+      ))}
     </div>
   );
 };

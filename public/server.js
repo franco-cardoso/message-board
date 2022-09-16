@@ -12,7 +12,7 @@ const header = {
 };
 
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
@@ -31,10 +31,10 @@ app.get("/messages", (req, res) => {
 app.post("/messages", (req, res) => {
   console.log(`${req.method} request from ${req.ip.split(":")[3]}`);
 
-  const newDb = db.messages.push(req.body);
-  res.send(newDb)
+  db.messages.push(req.body.data);
+  res.json(db.messages)
 
-  const jsonData = JSON.stringify(newDb, null, 4);
+  const jsonData = JSON.stringify(db, null, 4);
   fs.writeFile(path.join(__dirname, '..', 'assets', 'db.json'), jsonData, (err) => {
     if (err) throw err
   });

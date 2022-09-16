@@ -17,7 +17,7 @@ const Form = () => {
     if (!form.message) alert("you forgot your message dumbass");
     const date = new Date();
     const message = {
-      user: form.user,
+      user: form.user !== '' ? form.user : 'anonymous',
       message: form.message,
       date: `${date.toLocaleDateString()} (${
         date.toDateString().split(" ")[0]
@@ -27,9 +27,10 @@ const Form = () => {
     let options = {
       method: "POST",
       headers: { "content-type": "application/json" },
-      data: JSON.stringify(message),
+      data: message,
     };
     let res = await axios.post("http://localhost:3002/messages", options);
+    window.location.reload()
   };
 
   return (
