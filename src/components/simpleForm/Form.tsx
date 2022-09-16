@@ -1,8 +1,9 @@
 import axios from "axios";
+import { addDoc } from "firebase/firestore";
 import { useState } from "react";
 import "./form.css";
 
-const Form = () => {
+const Form = (props: any) => {
   const [form, setForm] = useState({ user: "", message: "" });
 
   const handleChange = (e: any) => {
@@ -15,22 +16,41 @@ const Form = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (!form.message) alert("you forgot your message dumbass");
-    const date = new Date();
+
+    function convertTZ(date: any, tzString: any) {
+      return new Date(
+        (typeof date === "string" ? new Date(date) : date).toLocaleString(
+          "en-US",
+          { timeZone: tzString }
+        )
+      );
+    }
+    const date = convertTZ(new Date(), "America/Argentina/Buenos_Aires");
+    console.log(`${date.getDay}/${date.getMonth}/${date.getFullYear}`);
+
     const message = {
-      user: form.user !== '' ? form.user : 'anonymous',
+      user: form.user !== "" ? form.user : "anonymous",
       message: form.message,
-      date: `${date.toLocaleDateString()} (${
-        date.toDateString().split(" ")[0]
-      }) ${date.toTimeString().split(" ")[0]}`,
+      date: `${
+        date.getDate() < 10 && date.getDate().toString().length === 1
+          ? "0" + date.getDate().toString()
+          : date.getDate()
+      }/${
+        date.getMonth() + 1 < 10 &&
+        (date.getMonth() + 1).toString().length === 1
+          ? "0" + (date.getMonth() + 1).toString()
+          : date.getMonth() + 1
+      }/${date.getFullYear()} (${date.toDateString().split(" ")[0]}) ${
+        date.toTimeString().split(" ")[0]
+      }`,
+      num: props.messages.length + 1,
     };
 
-    let options = {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      data: message,
-    };
-    let res = await axios.post("http://localhost:3002/messages", options);
-    window.location.reload()
+    console.log(props.collection);
+
+    await addDoc(props.collection, message);
+
+    window.location.reload();
   };
 
   return (
@@ -40,7 +60,7 @@ const Form = () => {
           className="nameInput"
           type="text"
           name="user"
-          placeholder="name"
+          placeholder="anonymous"
           onChange={handleChange}
           value={form.user}
         />

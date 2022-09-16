@@ -1,27 +1,14 @@
 import Message from "./Message";
-import axios from "axios";
-import { useEffect, useState } from "react";
 
-const Messages = () => {
-  const [messages, setMessages]: any = useState([]);
-  console.log(messages);
-
-  const getData = async () => {
-    await axios
-      .get("http://localhost:3002/messages")
-      .catch((err) => console.log(err))
-      .then((res: any) => setMessages(res.data));
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
+const Messages = (props:any) => {
+  const { data } = props
 
   return (
     <div className="messagesContainer">
-      {messages.map((message: { user: string; message: string }) => (
-        <Message user={message.user} message={message.message} />
-      ))}
+      {  data.map((message: { user: string; message: string, date:string, id:string }) => (
+        <Message user={message.user} message={message.message} date={message.date} id={message.id}   />
+      )) }
+      {data.length === 0 && <h1>loading...</h1>}
     </div>
   );
 };

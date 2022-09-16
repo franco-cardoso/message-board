@@ -1,13 +1,9 @@
-import Form from './components/simpleForm/Form';
-import Messages from './components/simpleForm/Messages';
+import MessageBoard from './components/simpleForm/MessageBoard';
 import './App.css';
 
 function App() {
   return (
-    <main>
-      <Form />
-      <Messages />
-    </main>
+    <MessageBoard />
   );
 }
 
