@@ -1,4 +1,3 @@
-import axios from "axios";
 import { addDoc } from "firebase/firestore";
 import { useState } from "react";
 import "./form.css";
@@ -26,7 +25,6 @@ const Form = (props: any) => {
       );
     }
     const date = convertTZ(new Date(), "America/Argentina/Buenos_Aires");
-    console.log(`${date.getDay}/${date.getMonth}/${date.getFullYear}`);
 
     const message = {
       user: form.user !== "" ? form.user : "anonymous",
@@ -43,10 +41,8 @@ const Form = (props: any) => {
       }/${date.getFullYear()} (${date.toDateString().split(" ")[0]}) ${
         date.toTimeString().split(" ")[0]
       }`,
-      num: props.messages.length + 1,
+      num: date.getTime(),
     };
-
-    console.log(props.collection);
 
     await addDoc(props.collection, message);
 

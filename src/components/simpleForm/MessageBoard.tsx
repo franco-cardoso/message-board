@@ -3,7 +3,7 @@ import Messages from "./Messages";
 import "../../App.css";
 import { useEffect, useState } from "react";
 import { db } from "../../firebase";
-import { collection, doc, getDocs, orderBy, query } from "firebase/firestore";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 
 function MessageBoard() {
   const [messages, setMessages]: any = useState([]);
