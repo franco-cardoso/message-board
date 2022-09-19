@@ -21,7 +21,7 @@ function MessageBoard() {
 
   return (
     <main>
-      <Form collection={messagesCollection} messages={messages} />
+      <Form collection={messagesCollection} messages={messages} getData={getData} />
       <Messages data={messages} />
     </main>
   );

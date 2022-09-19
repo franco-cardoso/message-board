@@ -1,9 +1,12 @@
 import { addDoc } from "firebase/firestore";
 import { useState } from "react";
+import styled from "styled-components";
 import "./form.css";
 
 const Form = (props: any) => {
   const [form, setForm] = useState({ user: "", message: "" });
+  const [isPosting, setIsPosting] = useState(false)
+  const { getData } = props;
 
   const handleChange = (e: any) => {
     setForm({
@@ -14,18 +17,22 @@ const Form = (props: any) => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    if (!form.message) alert("you forgot your message dumbass");
-
+    if (!form.message) {
+      return alert("you forgot your message dumbass");
+    }
+    setIsPosting(true)
+    getData();
+    
     function convertTZ(date: any, tzString: any) {
       return new Date(
         (typeof date === "string" ? new Date(date) : date).toLocaleString(
           "en-US",
           { timeZone: tzString }
-        )
-      );
-    }
+          )
+          );
+        }
     const date = convertTZ(new Date(), "America/Argentina/Buenos_Aires");
-
+    
     const message = {
       user: form.user !== "" ? form.user : "anonymous",
       message: form.message,
@@ -41,12 +48,13 @@ const Form = (props: any) => {
       }/${date.getFullYear()} (${date.toDateString().split(" ")[0]}) ${
         date.toTimeString().split(" ")[0]
       }`,
-      num: date.getTime(),
+      num: props.messages[0].num + 1,
     };
 
     await addDoc(props.collection, message);
-
-    window.location.reload();
+    setIsPosting(false)
+    getData();
+    
   };
 
   return (
@@ -66,8 +74,12 @@ const Form = (props: any) => {
           onChange={handleChange}
           value={form.message}
         ></textarea>
-        <input type="submit" className="submit" />
+        <div className="formButtons">
+          <input type="submit" disabled={isPosting ? true : false} />
+          <input type="button" value="Refresh" onClick={() => getData()} />
+        </div>
       </form>
+        {isPosting && <p>posting...</p>}
     </div>
   );
 };
